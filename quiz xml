@@ -1,0 +1,159 @@
+package com.example.a0109.quiz;
+
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
+public class MainActivity extends AppCompatActivity {
+    TextView rtxt;
+    Button qbtn;
+    RadioGroup mradio, bradio, sradio, hradio;
+    int s = 0;
+
+    private AdView mAdView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        rtxt = findViewById(R.id.rtxt);
+        qbtn = findViewById(R.id.qbtn);
+        mradio = findViewById(R.id.mradio);
+        bradio = findViewById(R.id.bradio);
+        sradio = findViewById(R.id.sradio);
+        hradio = findViewById(R.id.hradio);
+
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544/6300978111");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
+        mAdView.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                // 광고가 문제 없이 로드시 출력됩니다.
+                Log.d("@@@", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                // 광고 로드에 문제가 있을시 출력됩니다.
+                Log.d("@@@", "onAdFailedToLoad " + errorCode);
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
+
+
+
+        mradio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if(checkedId == R.id.m2){
+                    Toast.makeText(getApplicationContext(), "정답이에요!!", Toast.LENGTH_SHORT).show();
+                    s++;
+                }else{
+                    Toast.makeText(getApplicationContext(), "그게 최선인가요 ㅍㅅㅍ)...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        bradio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            //@Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if(checkedId == R.id.b2){
+                    Toast.makeText(getApplicationContext(), "정답이에요!!", Toast.LENGTH_SHORT).show();
+                    s++;
+                }else{
+                    Toast.makeText(getApplicationContext(), "그게 최선인가요 ㅍㅅㅍ)...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        sradio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if(checkedId == R.id.s1){
+                    Toast.makeText(getApplicationContext(), "정답이에요!!", Toast.LENGTH_SHORT).show();
+                    s++;
+                }else{
+                    Toast.makeText(getApplicationContext(), "그게 최선인가요 ㅍㅅㅍ)...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        hradio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                if(checkedId == R.id.h1){
+                    Toast.makeText(getApplicationContext(), "정답이에요!!", Toast.LENGTH_SHORT).show();
+                    s++;
+                }else{
+                    Toast.makeText(getApplicationContext(), "그게 최선인가요 ㅍㅅㅍ)...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+        qbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mradio.clearCheck();
+                bradio.clearCheck();
+                sradio.clearCheck();
+                hradio.clearCheck();
+
+                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.scale);
+                v.startAnimation(anim);
+
+
+
+                rtxt.setText("점수는 " + s + "/4 점 입니다.");
+            }
+
+        });
+    }
+}
